@@ -1,0 +1,62 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data.SqlClient;
+
+public class ids
+{
+    int no;
+    public void idgeneration()
+    {
+
+        SqlConnection con = new SqlConnection("server=CMCLAB;integrated security=true;database=PCCP");
+        string Query;
+        ////int PrefixLength, PadLength;
+        ////PrefixLength = Convert.ToInt32(Prefix.Length);
+        ////PadLength = ColumnLength - PrefixLength;
+        //Query = "Select Max(id) from regis";
+
+        //SqlCommand com = new SqlCommand(Query, con);
+        //con.Open();
+        //if (com.ExecuteScalar().ToString() == "")
+        //{
+        //    Id = Prefix;
+        //    //for (int i = 1; i <= PadLength - 1; i++)
+        //    //{
+        //    //    Id += "0";
+        //    //}
+        //    Id += "1";
+        //}
+        //else
+        //{
+        //    Id = Convert.ToString(com.ExecuteScalar());
+        //}
+        //con.Close();
+        //return Id;
+        Query = "Select count(*) from regis";
+        SqlCommand cmd = new SqlCommand(Query, con);
+        SqlDataReader dr = cmd.ExecuteReader();
+        dr.Read();
+        int rowcount = int.Parse(dr[0].ToString());
+        dr.Close();
+        if (rowcount > 0)
+        {
+            SqlCommand cmd1 = new SqlCommand("Select max(id) from regis", con);
+            dr = cmd1.ExecuteReader();
+            dr.Read();
+            int i = int.Parse(dr[0].ToString());
+            dr.Close();
+            no = i + 1;
+        }
+        else
+        {
+            no = 1;
+        }
+    }
+
+    public string idgeneration1()
+    {
+        throw new NotImplementedException();
+    }
+}
